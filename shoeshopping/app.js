@@ -1,3 +1,72 @@
+function loadHomePage() {
+  fetch('home.html')
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Failed to load home page');
+          }
+          return response.text();
+      })
+      .then(html => {
+          document.getElementById('main').innerHTML = html;
+      })
+      .catch(error => {
+          console.error('Error loading home page:', error);
+      });
+}
+function loadSigninPage() {
+  fetch('signin.html')
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Failed to load home page');
+          }
+          return response.text();
+      })
+      .then(html => {
+          document.getElementById('main').innerHTML = html;
+      })
+      .catch(error => {
+          console.error('Error loading home page:', error);
+      });
+}
+function loadSignupPage() {
+  fetch('signup.html')
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Failed to load home page');
+          }
+          return response.text();
+      })
+      .then(html => {
+          document.getElementById('main').innerHTML = html;
+      })
+      .catch(error => {
+          console.error('Error loading home page:', error);
+      });
+}
+function handleRouting() {
+  const path = window.location.pathname;
+
+  switch (path) {
+      case '/':
+          loadHomePage();
+          break;
+      case '/signin':
+          loadSigninPage();
+          break;
+      case '/signup':
+        loadSignupPage()
+          break;
+      case '/home':
+          loadHomePage();
+          break;
+      default:
+          renderNotFound();
+  }
+}
+
+window.addEventListener('popstate', handleRouting);
+
+handleRouting();
 const wrapper = document.querySelector(".sliderWrapper");
 const menuItems = document.querySelectorAll(".menuItem");
 
@@ -135,3 +204,6 @@ productButton.addEventListener("click", () => {
 close.addEventListener("click", () => {
   payment.style.display = "none";
 });
+
+// Function to load the content of home.html
+
