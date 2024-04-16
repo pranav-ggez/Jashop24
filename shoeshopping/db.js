@@ -13,7 +13,8 @@ const connectToMongo=async ()=>{
         mongoose.connection.on('close', () => console.log('close'));
         var connection=mongoose.connection
         connection.once('open', async()=>{
-          
+          const items  =connection.db.collection("clothes");
+            global.clothes=await items.find({}).toArray()          
         })
         await mongoose.connect(mongoURI)
       } catch (error) {

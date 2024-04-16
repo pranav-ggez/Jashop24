@@ -15,6 +15,10 @@ app.get('*', (req, res) => {
 
 
 connectToMongo()
+app.use(express.json());
+app.use("/api", require("./Routes/ReturnClothes"));
+app.use("/api", require("./Routes/SignIn"));
+app.use("/api", require("./Routes/Signup"));
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
