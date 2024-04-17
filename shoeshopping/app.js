@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", function() {
           });
   }
 
-  function loadSigninPage() {
-    fetch("signin.html")
+  function loadSignupPage() {
+    fetch("signup.html")
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to load sign-up page");
@@ -25,6 +25,35 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .then((html) => {
             document.getElementById("main").innerHTML = html;
+            const signupForm = document.getElementById("signup-form");
+          signupForm.addEventListener("submit", function(event) {
+              event.preventDefault();
+
+              const formData = new FormData(signupForm);
+              const email = formData.get("email");
+              const name = formData.get("name");
+              const password = formData.get("password");
+
+              fetch("/api/signup", {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({"name":name, "email":email, "password":password })
+              })
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error("Sign-up failed");
+                  }
+                  return response.json();
+              })
+              .then(data => {
+                  console.log("Sign-up successful:", data);
+              })
+              .catch(error => {
+                  console.error("Sign-up error:", error);
+              });
+          });
         })
         .catch((error) => {
             console.error("Error loading sign-up page:", error);

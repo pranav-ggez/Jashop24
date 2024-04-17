@@ -2,9 +2,11 @@ const express=require('express')
 const router=express.Router()
 const User=require('../Model/User')
 const {body, validationResult}=require('express-validator')
-router.post('/createUser',  body("email").isEmail(), body("password").isLength({min:8}),  async (req, res)=>{
+router.post('/signup',  body("email").isEmail(), body("password").isLength({min:2}),  async (req, res)=>{
    const error=validationResult(req)
+   console.log(req.body)
    if(!error.isEmpty()){
+      console.log(error.array())
       return res.status(400).json({errors:  error.array()})
    }  
 
@@ -14,6 +16,7 @@ router.post('/createUser',  body("email").isEmail(), body("password").isLength({
             password:req.body.password,
             email: req.body.email
         })
+        console.log("User created")
         res.json({success: true})
      }catch(err){
         console.log(err)
