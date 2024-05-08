@@ -64,8 +64,9 @@ nav {
 
 .sliderWrapper {
   display: flex;
-  width: 500vw;
-  transition: all 1.5s ease-in-out;
+  overflow: hidden; /* Ensures items don't overflow outside the container */
+  transition: transform 0.3s ease; /* Smooth slide animation */
+  width: 500vw; /* Adjust width as needed */
 }
 
 .sliderItem {
@@ -86,7 +87,12 @@ nav {
 .sliderImg {
   z-index: 1;
 }
-
+.navLinks{
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
+  align-items: center;
+}
 .sliderTitle {
   position: absolute;
   top: 10%;
@@ -113,7 +119,19 @@ nav {
 .buyButton {
   position: absolute;
   top: 50%;
-  right: 10%;
+  right: 6%;
+  font-size: 30px;
+  font-weight: 900;
+  color: white;
+  border: 1px solid gray;
+  background-color: black;
+  z-index: 1;
+  cursor: pointer;
+}
+.addToCartButton {
+  position: absolute;
+  top: 50%;
+  right: 20%;
   font-size: 30px;
   font-weight: 900;
   color: white;
@@ -124,6 +142,10 @@ nav {
 }
 
 .buyButton:hover {
+  background-color: white;
+  color: black;
+}
+.addToCartButton:hover {
   background-color: white;
   color: black;
 }
@@ -192,7 +214,11 @@ nav {
 }
 
 .product {
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* padding: top 100px; */
+  padding-top: 30%;
+  /* height: 100vh; */
   background-color: whitesmoke;
   position: relative;
   clip-path: polygon(0 15%, 100% 0, 100% 100%, 0% 100%);
@@ -285,9 +311,10 @@ label {
 .productImg {
   width: 50%;
 }
-
+.productCard{
+  display: flex;
+}
 .productDetails {
-  position: absolute;
   top: 10%;
   right: 0;
   width: 40%;
@@ -333,6 +360,14 @@ label {
 
 .productButton {
   float: right;
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+.addToCartProductButton {
+  float: left;
   padding: 10px 20px;
   background-color: black;
   color: white;
@@ -495,6 +530,10 @@ footer {
     right: 0;
     top: 0;
   }
+  .addToCartButton{
+    right: 50;
+    top: 0;
+  }
 
   .features{
     flex-direction: column;
@@ -570,6 +609,10 @@ footer {
   border-radius: 5px;
   background-color: #f9f9f9;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
 }
 
 h2 {
@@ -578,6 +621,8 @@ h2 {
 
 .form-group {
   margin-bottom: 20px;
+  min-width: 100%;
+  width:300px
 }
 
 label {
@@ -586,7 +631,8 @@ label {
 }
 
 input[type="email"],
-input[type="password"] {
+input[type="password"], 
+input[type="text"] {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -606,4 +652,80 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
   background-color: #0056b3;
+}
+.cart-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.cart-item-image {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.cart-item-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  padding-left: 15px;
+}
+
+.cart-item-title {
+  
+  font-size: 18px;
+  margin: 0;
+}
+
+.cart-item-price {
+  color: #333;
+}
+
+.cart-item-description {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+.cart-item-remove {
+  background-color: red;
+  font-size: 18px;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  margin-right: 40px;
+}
+
+.cart-item-remove:hover {
+  background-color: darkred;
+}
+.sliderNavigation {
+  display: flex;
+  justify-content: space-between; /* Position buttons at both ends */
+  padding: 10px;
+}
+a:visited{
+  text-decoration: none;
+}
+.navLinks>a:visited{
+  color: white;
+}
+.sliderNavigation button {
+  background-color: #333; /* Dark background */
+  color: white; /* White text */
+  border: none; /* No border */
+  padding: 10px;
+  cursor: pointer; /* Cursor changes to pointer on hover */
+}
+
+.sliderNavigation button:hover {
+  background-color: #555; /* Darker shade on hover */
 }

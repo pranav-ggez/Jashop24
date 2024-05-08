@@ -25,7 +25,7 @@ const CartSchema=new Schema({
         colors: [{
           code: {
             type: String,
-            required: true
+            required: false
           },
           img: {
             type: String,
@@ -34,5 +34,5 @@ const CartSchema=new Schema({
         }]
       }]
 })
-const cart = mongoose.model('cart', clothesSchema);
+const cart = mongoose.model('cartitems', CartSchema);
 module.exports=cart
