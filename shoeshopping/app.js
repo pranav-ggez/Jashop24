@@ -1,22 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  let name = "";
-  let email = "";
-  function loadHomePage() {
-    fetch("home.html")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to load home page");
-        }
-        return response.text();
-      })
-      .then((html) => {
-        document.getElementById("main").innerHTML = html;
-      })
-      .catch((error) => {
-        console.error("Error loading home page:", error);
-      });
-  }
-
   function loadSignupPage() {
     fetch("signup.html")
       .then((response) => {
@@ -55,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then((data) => {
               console.log("Sign-up successful:", data);
-              window.location.href="http://localhost:3000/login"
+              window.location.href = "http://localhost:3000/login";
             })
             .catch((error) => {
               console.error("Sign-up error:", error);
@@ -87,6 +69,32 @@ document.addEventListener("DOMContentLoaded", function () {
           })
             .then((res) => {
               if (!res.ok) return console.error("Error");
+              const navbar = document.querySelector(".navLinks");
+              navbar.innerHTML = `<a class="navItem" href="/cart">
+                      <div class="navItem">
+                        <span class="limitedOffer">Cart</span>
+                      </div>
+                    </a>
+                    <button class="navItem" id="logout">
+                      <div class="navItem">
+                        <span class="limitedOffer">Logout</span>
+                      </div>
+                    </button>`;
+              // console.log(navbar)
+              document
+                .getElementById("logout")
+                .addEventListener("click", function () {
+                  console.log("click");
+                  fetch("http://localhost:3000/api/logout", {
+                    method: "POST",
+                  }).then((response) => {
+                    if (response.ok) {
+                      window.location.href = "/login"; // Redirect to login page or desired page
+                    } else {
+                      console.error("Logout failed");
+                    }
+                  });
+                });
               return res.json();
             })
             .then((data) => {
@@ -113,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <img src="${cart.colors[0].img}" alt="Product Image" class="cart-item-image">
                     <div class="cart-item-details">
                       <h2 class="cart-item-title">${cart.title}</h2>
-                      <p class="cart-item-price">$${cart.price}</p>
+                      <p class="cart-item-price">₹${cart.price}</p>
                     </div>
                     <button class="cart-item-remove">Remove</button>
                   </div>
@@ -121,7 +129,8 @@ document.addEventListener("DOMContentLoaded", function () {
                   });
                   let html = document.getElementById("main").innerHTML;
                   document.getElementById("main").innerHTML =
-                    html + `<div class="payment">
+                    html +
+                    `<div class="payment">
                     <h1 class="payTitle">Personal Information</h1>
                     <label>Name and Surname</label>
                     <input type="text" placeholder="John Doe" class="payInput" />
@@ -129,34 +138,54 @@ document.addEventListener("DOMContentLoaded", function () {
                     <input type="text" placeholder="+1 234 5678" class="payInput" />
                     <label>Address</label>
                     <input type="text" placeholder="Elton St 21 22-145" class="payInput" />
-                    <h1 class="payTitle">Card Information</h1>
-                    <div class="cardIcons">
-                      <img src="./img/visa.png" width="40" alt="" class="cardIcon" />
-                      <img src="./img/master.png" alt="" width="40" class="cardIcon" />
+                  
+                    <h1 class="payTitle">Payment Method</h1>
+                    <label>
+                      <input type="radio" name="paymentMethod" value="cod" checked> Cash on Delivery
+                    </label>
+                    <label>
+                      <input type="radio" name="paymentMethod" value="online"> Online Payment
+                    </label>
+                  
+                    <div id="upiField" style="display: none;">
+                      <label>UPI Address</label>
+                      <input type="text" placeholder="Enter UPI Address" class="payInput" />
                     </div>
-                    <input type="password" class="payInput" placeholder="Card Number" />
-                    <div class="cardInfo">
-                      <input type="text" placeholder="mm" class="payInput sm" />
-                      <input type="text" placeholder="yyyy" class="payInput sm" />
-                      <input type="text" placeholder="cvv" class="payInput sm" />
-                    </div>
+                  
                     <button class="payButton">Checkout!</button>
                     <span class="close">X</span>
-                  </div>`
+                  </div>`;
                   let htmls = document.getElementById("main").innerHTML;
                   document.getElementById("main").innerHTML =
-                    htmls + `<div>
+                    htmls +
+                    `<div>
                       <button class="productButton">Checkout</button>
-                    </div>`
-                  const paybutton=document.querySelector(".productButton")
-                  const payment=document.querySelector(".payment")
-                  paybutton.addEventListener("click", ()=>{
-                    payment.style.display="flex"
-                  })
+                    </div>`;
+                  const paybutton = document.querySelector(".productButton");
+                  const payment = document.querySelector(".payment");
+                  paybutton.addEventListener("click", () => {
+                    payment.style.display = "flex";
+                  });
+                  const paymentMethodRadios =
+                    document.getElementsByName("paymentMethod");
+                  const upiField = document.getElementById("upiField");
+
+                  paymentMethodRadios.forEach((radio) => {
+                    radio.addEventListener("change", function () {
+                      if (this.value === "online") {
+                        upiField.style.display = "block"; // Show the UPI field if online payment is selected
+                      } else {
+                        upiField.style.display = "none"; // Hide the UPI field if COD is selected
+                      }
+                    });
+                  });
+
                   const close = document.querySelector(".close");
-                  close.addEventListener("click",()=>{
-                    payment.style.display="none"
-                  })
+                  const paymentDiv = document.querySelector(".payment");
+
+                  close.addEventListener("click", function () {
+                    paymentDiv.style.display = "none"; // Close the payment div when the close button is clicked
+                  });
                 });
             });
         } else {
@@ -198,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then((data) => {
               console.log("Sign-in successful:", data);
-              window.location.href="http://localhost:3000/"
+              window.location.href = "http://localhost:3000/";
             })
             .catch((error) => {
               console.error("Sign-in error:", error);
@@ -216,25 +245,44 @@ document.addEventListener("DOMContentLoaded", function () {
     switch (path) {
       case "/":
         fetch("http://localhost:3000/api/user", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                })
-                  .then((response) => {
-                    console.log(response);
-                    if (!response.ok) throw new Error("Failed to load profile");
-                    return response.json();
-                  })
-                  .then((data) => {
-                    if(!data.error){
-                      const navbar=document.querySelector(".navLinks")
-                      navbar.innerHTML=`<a class="navItem" href="/cart">
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        })
+          .then((response) => {
+            console.log(response);
+            if (!response.ok) throw new Error("Failed to load profile");
+            return response.json();
+          })
+          .then((data) => {
+            if (!data.error) {
+              const navbar = document.querySelector(".navLinks");
+              navbar.innerHTML = `<a class="navItem" href="/cart">
                       <div class="navItem">
                         <span class="limitedOffer">Cart</span>
                       </div>
-                    </a>`
-                    console.log(navbar)
+                    </a>
+                    <button class="navItem" id="logout">
+                      <div class="navItem">
+                        <span class="limitedOffer">Logout</span>
+                      </div>
+                    </button>`;
+              // console.log(navbar)
+              document
+                .getElementById("logout")
+                .addEventListener("click", function () {
+                  console.log("click");
+                  fetch("http://localhost:3000/api/logout", {
+                    method: "POST",
+                  }).then((response) => {
+                    if (response.ok) {
+                      window.location.href = "/login"; // Redirect to login page or desired page
+                    } else {
+                      console.error("Logout failed");
                     }
-                  })
+                  });
+                });
+            }
+          });
         fetch("http://localhost:3000/api/returnClothes", {
           method: "POST",
           headers: {
@@ -249,7 +297,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log(products);
 
             const slider = document.querySelector(".sliderWrapper");
-            const productCard=document.querySelector(".product")
+            const productCard = document.querySelector(".product");
             products.forEach((product) => {
               console.log(product);
               slider.innerHTML += `
@@ -257,7 +305,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <img src="${product.colors[0].img}" alt="" class="sliderImg">
                     <div class="sliderBg"></div>
                     <h1 class="sliderTitle">${product.title}</br> NEW</br> SEASON</h1>
-                    <h2 class="sliderPrice">$${product.price}</h2>
+                    <h2 class="sliderPrice">₹${product.price}</h2>
                      <a href="#product">
                          <button class="buyButton">BUY NOW!</button> 
                     </a>
@@ -265,30 +313,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
               `;
               // console.log(slider.innerHTML);
-              productCard.innerHTML+=`
+              productCard.innerHTML += `
               <div class="productCard">
           <img src="${product.colors[0].img}" alt="" class="productImg" />
           <div class="productDetails">
             <h1 class="productTitle">${product.title}</h1>
-            <h2 class="productPrice">$${product.price}</h2>
+            <h2 class="productPrice">₹${product.price}</h2>
             <p class="productDesc">
               Lorem ipsum dolor sit amet consectetur impal adipisicing elit.
               Alias assumenda dolorum doloremque sapiente aliquid aperiam.
             </p>
-            <div class="colors">
-              <div class="color"></div>
-              <div class="color"></div>
-            </div>
-            <div class="sizes">
-              <div class="size">42</div>
-              <div class="size">43</div>
-              <div class="size">44</div>
-            </div>
             <button class="productButton">BUY NOW!</button>
-            <button class="addToCartProductButton" id="${product.id+5}">Add To Cart</button>
+            <button class="addToCartProductButton" id="${
+              product.id + 5
+            }">Add To Cart</button>
           </div>
         </div>
-              `
+              `;
             });
             const sliderWrapper = document.querySelector(".sliderWrapper");
             const sliderItems = document.querySelectorAll(".sliderItem");
@@ -388,7 +429,9 @@ document.addEventListener("DOMContentLoaded", function () {
                   });
               });
             });
-            const productAddToCart = document.querySelectorAll(".addToCartProductButton");
+            const productAddToCart = document.querySelectorAll(
+              ".addToCartProductButton"
+            );
             productAddToCart.forEach((btn) => {
               btn.addEventListener("click", () => {
                 console.log(btn.id);

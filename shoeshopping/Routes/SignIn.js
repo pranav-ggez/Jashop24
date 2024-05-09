@@ -2,6 +2,17 @@ const express = require('express');
 const router = express.Router();
 const User = require('../Model/User');
 
+router.post('/logout', (req, res) => {
+  // Destroy the session to log out
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send('Failed to logout');
+    }
+    // Redirect to a login page or another appropriate page
+    res.redirect('/login'); // Or you can send a response: res.send('Logged out');
+  });
+});
+
 router.post('/signin', async (req, res) => {
   try {
     const { email, password } = req.body;

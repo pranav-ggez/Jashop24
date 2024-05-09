@@ -41,6 +41,7 @@ nav {
   font-size: 20px;
   border-bottom: 2px solid green;
   cursor: pointer;
+  color:white
 }
 
 .navBottom {
@@ -55,7 +56,11 @@ nav {
   color: lightgray;
   font-weight: 400;
 }
-
+.navItem{
+  background-color: transparent;
+  border: none;
+  /* text-decoration-color: white; */
+}
 .slider {
   background: url("https://images.unsplash.com/photo-1604147495798-57beb5d6af73?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80");
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 85%);
