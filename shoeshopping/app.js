@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <span class="limitedOffer">Logout</span>
                       </div>
                     </button>`;
-              // console.log(navbar)
+              
               document
                 .getElementById("logout")
                 .addEventListener("click", function () {
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     method: "POST",
                   }).then((response) => {
                     if (response.ok) {
-                      window.location.href = "/login"; // Redirect to login page or desired page
+                      window.location.href = "/login"; 
                     } else {
                       console.error("Logout failed");
                     }
@@ -173,9 +173,9 @@ document.addEventListener("DOMContentLoaded", function () {
                   paymentMethodRadios.forEach((radio) => {
                     radio.addEventListener("change", function () {
                       if (this.value === "online") {
-                        upiField.style.display = "block"; // Show the UPI field if online payment is selected
+                        upiField.style.display = "block"; 
                       } else {
-                        upiField.style.display = "none"; // Hide the UPI field if COD is selected
+                        upiField.style.display = "none"; 
                       }
                     });
                   });
@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   const paymentDiv = document.querySelector(".payment");
 
                   close.addEventListener("click", function () {
-                    paymentDiv.style.display = "none"; // Close the payment div when the close button is clicked
+                    paymentDiv.style.display = "none"; 
                   });
                 });
             });
@@ -266,7 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <span class="limitedOffer">Logout</span>
                       </div>
                     </button>`;
-              // console.log(navbar)
+              
               document
                 .getElementById("logout")
                 .addEventListener("click", function () {
@@ -275,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     method: "POST",
                   }).then((response) => {
                     if (response.ok) {
-                      window.location.href = "/login"; // Redirect to login page or desired page
+                      window.location.href = "/login"; 
                     } else {
                       console.error("Logout failed");
                     }
@@ -312,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <button class="addToCartButton" id="${product.id}">Add To Cart</button>
                 </div>
               `;
-              // console.log(slider.innerHTML);
+              
               productCard.innerHTML += `
               <div class="productCard">
           <img src="${product.colors[0].img}" alt="" class="productImg" />
@@ -333,34 +333,34 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             const sliderWrapper = document.querySelector(".sliderWrapper");
             const sliderItems = document.querySelectorAll(".sliderItem");
-            const totalItems = sliderItems.length; // Total number of slider items
-            const slideWidth = 100; // Each slide is 100vw
-            let currentIndex = 0; // Start at the first slide
+            const totalItems = sliderItems.length; 
+            const slideWidth = 100; 
+            let currentIndex = 0; 
 
-            // Function to update the slider's position
+            
             function updateSliderPosition() {
-              // Calculate the new translation value based on the current index
+              
               const offset = -currentIndex * slideWidth;
               sliderWrapper.style.transform = `translateX(${offset}vw)`;
             }
 
-            // Function to move to the previous slide
+            
             function slideLeft() {
               if (currentIndex > 0) {
-                currentIndex -= 1; // Move back one slide
-                updateSliderPosition(); // Update the slider position
+                currentIndex -= 1; 
+                updateSliderPosition(); 
               }
             }
 
-            // Function to move to the next slide
+            
             function slideRight() {
               if (currentIndex < totalItems - 1) {
-                currentIndex += 1; // Move forward one slide
-                updateSliderPosition(); // Update the slider position
+                currentIndex += 1; 
+                updateSliderPosition(); 
               }
             }
 
-            // Navigation buttons for left and right sliding
+            
             const slideLeftButton = document.getElementById("slideLeft");
             const slideRightButton = document.getElementById("slideRight");
 
@@ -511,34 +511,34 @@ document.addEventListener("DOMContentLoaded", function () {
   handleRouting();
   const sliderWrapper = document.querySelector(".sliderWrapper");
   const sliderItems = document.querySelectorAll(".sliderItem");
-  const totalItems = sliderItems.length; // Total number of slider items
-  const slideWidth = 100; // Each slide is 100vw
-  let currentIndex = 0; // Start at the first slide
+  const totalItems = sliderItems.length; 
+  const slideWidth = 100; 
+  let currentIndex = 0; 
 
-  // Function to update the slider's position
+  
   function updateSliderPosition() {
-    // Calculate the new translation value based on the current index
+    
     const offset = -currentIndex * slideWidth;
     sliderWrapper.style.transform = `translateX(${offset}vw)`;
   }
 
-  // Function to move to the previous slide
+  
   function slideLeft() {
     if (currentIndex > 0) {
-      currentIndex -= 1; // Move back one slide
-      updateSliderPosition(); // Update the slider position
+      currentIndex -= 1; 
+      updateSliderPosition(); 
     }
   }
 
-  // Function to move to the next slide
+  
   function slideRight() {
     if (currentIndex < totalItems - 1) {
-      currentIndex += 1; // Move forward one slide
-      updateSliderPosition(); // Update the slider position
+      currentIndex += 1; 
+      updateSliderPosition(); 
     }
   }
 
-  // Navigation buttons for left and right sliding
+  
   const slideLeftButton = document.getElementById("slideLeft");
   const slideRightButton = document.getElementById("slideRight");
 
