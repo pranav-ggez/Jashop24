@@ -56,6 +56,11 @@ nav {
   color: lightgray;
   font-weight: 400;
 }
+.payTitle{
+  text-align: right;
+  color:black;
+  color: #111;
+}
 .navItem{
   background-color: transparent;
   border: none;

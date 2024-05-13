@@ -37,6 +37,7 @@ app.use("/api", require("./Routes/Signup"));
 app.use("/api", require("./Routes/AddToCart"));
 app.use("/api", require("./Routes/Profile"));
 app.use("/api", require("./Routes/FetchCart"));
+app.use("/api", require("./Routes/RemoveFromCart"));
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

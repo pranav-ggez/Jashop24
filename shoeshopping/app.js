@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <span class="limitedOffer">Logout</span>
                       </div>
                     </button>`;
-              
+
               document
                 .getElementById("logout")
                 .addEventListener("click", function () {
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     method: "POST",
                   }).then((response) => {
                     if (response.ok) {
-                      window.location.href = "/login"; 
+                      window.location.href = "/login";
                     } else {
                       console.error("Logout failed");
                     }
@@ -112,8 +112,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then((data) => {
                   console.log(data);
                   document.getElementById("main").innerHTML = "";
+                  let subtotal = 0;
                   data.cart.cartItems.forEach((cart) => {
                     let html = document.getElementById("main").innerHTML;
+                    subtotal = cart.price + subtotal;
                     document.getElementById("main").innerHTML =
                       html +
                       `
@@ -123,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       <h2 class="cart-item-title">${cart.title}</h2>
                       <p class="cart-item-price">₹${cart.price}</p>
                     </div>
-                    <button class="cart-item-remove">Remove</button>
+                    <button class="cart-item-remove" id="${cart.id}">Remove</button>
                   </div>
                   `;
                   });
@@ -151,18 +153,64 @@ document.addEventListener("DOMContentLoaded", function () {
                       <label>UPI Address</label>
                       <input type="text" placeholder="Enter UPI Address" class="payInput" />
                     </div>
-                  
                     <button class="payButton">Checkout!</button>
                     <span class="close">X</span>
                   </div>`;
                   let htmls = document.getElementById("main").innerHTML;
                   document.getElementById("main").innerHTML =
                     htmls +
-                    `<div>
+                    `
+                    <p class="payTitle">Subtotal: ₹${subtotal}</p>
+                    <div>
                       <button class="productButton">Checkout</button>
                     </div>`;
                   const paybutton = document.querySelector(".productButton");
                   const payment = document.querySelector(".payment");
+                  const removeButtons =
+                    document.querySelectorAll(".cart-item-remove");
+                  console.log(removeButtons);
+                  removeButtons.forEach((btn) => {
+                    console.log(btn);
+                    btn.addEventListener("click", () => {
+                      fetch("http://localhost:3000/api/user", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                      })
+                        .then((response) => {
+                          console.log(response);
+                          if (!response.ok)
+                            throw new Error("Failed to load profile");
+                          return response.json();
+                        })
+                        .then((data) => {
+                          console.log(btn.id);
+                          fetch("/api/RemoveFromCart", {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                              name: data.name,
+                              email: data.email,
+                              id: btn.id,
+                            }),
+                          })
+                            .then((response) => {
+                              if (!response.ok) {
+                                throw new Error("Adding failed");
+                              }
+                              return response.json();
+                            })
+                            .then((data) => {
+                              console.log("Adding successful:", data);
+                              window.location.href="http://localhost:3000/cart"
+                            })
+                            .catch((error) => {
+                              console.error("Adding Failed", error);
+                            });
+                        });
+                    });
+                  });
                   paybutton.addEventListener("click", () => {
                     payment.style.display = "flex";
                   });
@@ -173,9 +221,9 @@ document.addEventListener("DOMContentLoaded", function () {
                   paymentMethodRadios.forEach((radio) => {
                     radio.addEventListener("change", function () {
                       if (this.value === "online") {
-                        upiField.style.display = "block"; 
+                        upiField.style.display = "block";
                       } else {
-                        upiField.style.display = "none"; 
+                        upiField.style.display = "none";
                       }
                     });
                   });
@@ -184,7 +232,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   const paymentDiv = document.querySelector(".payment");
 
                   close.addEventListener("click", function () {
-                    paymentDiv.style.display = "none"; 
+                    paymentDiv.style.display = "none";
                   });
                 });
             });
@@ -266,7 +314,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <span class="limitedOffer">Logout</span>
                       </div>
                     </button>`;
-              
+
               document
                 .getElementById("logout")
                 .addEventListener("click", function () {
@@ -275,7 +323,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     method: "POST",
                   }).then((response) => {
                     if (response.ok) {
-                      window.location.href = "/login"; 
+                      window.location.href = "/login";
                     } else {
                       console.error("Logout failed");
                     }
@@ -312,7 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <button class="addToCartButton" id="${product.id}">Add To Cart</button>
                 </div>
               `;
-              
+
               productCard.innerHTML += `
               <div class="productCard">
           <img src="${product.colors[0].img}" alt="" class="productImg" />
@@ -333,34 +381,29 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             const sliderWrapper = document.querySelector(".sliderWrapper");
             const sliderItems = document.querySelectorAll(".sliderItem");
-            const totalItems = sliderItems.length; 
-            const slideWidth = 100; 
-            let currentIndex = 0; 
+            const totalItems = sliderItems.length;
+            const slideWidth = 100;
+            let currentIndex = 0;
 
-            
             function updateSliderPosition() {
-              
               const offset = -currentIndex * slideWidth;
               sliderWrapper.style.transform = `translateX(${offset}vw)`;
             }
 
-            
             function slideLeft() {
               if (currentIndex > 0) {
-                currentIndex -= 1; 
-                updateSliderPosition(); 
+                currentIndex -= 1;
+                updateSliderPosition();
               }
             }
 
-            
             function slideRight() {
               if (currentIndex < totalItems - 1) {
-                currentIndex += 1; 
-                updateSliderPosition(); 
+                currentIndex += 1;
+                updateSliderPosition();
               }
             }
 
-            
             const slideLeftButton = document.getElementById("slideLeft");
             const slideRightButton = document.getElementById("slideRight");
 
@@ -511,34 +554,29 @@ document.addEventListener("DOMContentLoaded", function () {
   handleRouting();
   const sliderWrapper = document.querySelector(".sliderWrapper");
   const sliderItems = document.querySelectorAll(".sliderItem");
-  const totalItems = sliderItems.length; 
-  const slideWidth = 100; 
-  let currentIndex = 0; 
+  const totalItems = sliderItems.length;
+  const slideWidth = 100;
+  let currentIndex = 0;
 
-  
   function updateSliderPosition() {
-    
     const offset = -currentIndex * slideWidth;
     sliderWrapper.style.transform = `translateX(${offset}vw)`;
   }
 
-  
   function slideLeft() {
     if (currentIndex > 0) {
-      currentIndex -= 1; 
-      updateSliderPosition(); 
+      currentIndex -= 1;
+      updateSliderPosition();
     }
   }
 
-  
   function slideRight() {
     if (currentIndex < totalItems - 1) {
-      currentIndex += 1; 
-      updateSliderPosition(); 
+      currentIndex += 1;
+      updateSliderPosition();
     }
   }
 
-  
   const slideLeftButton = document.getElementById("slideLeft");
   const slideRightButton = document.getElementById("slideRight");
 
